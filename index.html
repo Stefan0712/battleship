@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="header">
+        <div class="menu">
+            <input type="text" id="usernameInput" placeholder="Username..."> 
+            <button id="startGameBtn" onclick="startGame()">Start game</button>
+        </div>
+        <div class="status"></div>
+        <div class="ships">
+            <div class="shipsBtns" id="ship1" onclick="shipSelection(1)">
+                <img src="./imgs/ship1.png" ><div id="counter1"></div>
+        </div>
+            <div class="shipBtns" id="ship2" onclick="shipSelection(2)">
+                <img src="./imgs/ship2.png"><div id="counter2"></div>
+            </div>
+            <div class="shipBtns" id="ship3" onclick="shipSelection(3)">
+                <img src="./imgs/ship3.png"><div id="counter3"></div>
+            </div>
+            <div class="shipBtns" id="ship4" onclick="shipSelection(4)">
+                <img src="./imgs/ship4.png" ><div id="counter4"></div>
+            </div>
+        </div>
+    </div>
+    <div class="leftPanel">
+        <div class="leftHeader">
+            <div class="player1name"></div>
+        </div>
+            <div class="mainLeft"></div>
+    </div>
+    <div class="rightPanel">
+        <div class="rightHeader">
+            <div class="player2name">EnemyAI</div>
+        </div>
+        <div class="mainRight"></div>
+    </div>
+
+</body>
+</html>
