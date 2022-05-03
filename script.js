@@ -84,6 +84,8 @@ function startGame(){
     gameboards.push(playerGameboard)
     gameboards.push(enemyGameboard)
     showShips(0)
+    AI();
+    
 
     
 }
@@ -205,6 +207,95 @@ function showShips(counter){
         shipImg.setAttribute('src','./imgs/ship4.png')
     }else if(counter==7){shipImg.removeAttribute('src')}
 }
+let aiShipCounter = 0;
+function AI(){
+        console.log("The AI is running")
+        let i;
+        let j;
+        function getNumbers(){
+            i = Math.floor(Math.random() * (9 - 2 + 1) + 2);    
+            j = Math.floor(Math.random() * (9 - 2 + 1) + 2);    
+        }
+        
+        if(aiShipCounter === 0){
+            getNumbers();
+            if(gameboards[1].board[i][j] === 's' || gameboards[1].board[i-1][j] === 's' || gameboards[1].board[i-2][j] === 's' || gameboards[1].board[i-3][j] === 's'){
+                console.log("You can't place your ship there!");
+                getNumbers();
+                AI();
+            }else {
+            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-2}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-3}x${j}`).style.cssText = "background-color: lightgray";
+        
+            gameboards[1].board[i][j] = 's';
+            gameboards[1].board[i-1][j] = 's';
+            gameboards[1].board[i-2][j] = 's';
+            gameboards[1].board[i-3][j] = 's';
+            aiShipCounter++;
+            AI()
+                }
+            
+
+        }else if(aiShipCounter === 1||aiShipCounter===2){
+            getNumbers();
+            if(gameboards[1].board[i][j] === 's' || gameboards[1].board[i-1][j] === 's' || gameboards[1].board[i-2][j] === 's' || i<=2){
+                console.log("You can't place your ship there!");
+                getNumbers();
+                AI()
+            }else {
+            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-2}x${j}`).style.cssText = "background-color: lightgray";
+        
+            gameboards[1].board[i][j] = 's';
+            gameboards[1].board[i-1][j] = 's';
+            gameboards[1].board[i-2][j] = 's';
+            aiShipCounter++;
+            AI()
+                
+            }   
+
+        }else if(aiShipCounter === 3||aiShipCounter===4){
+            getNumbers();
+            if(gameboards[1].board[i][j] === 's' || gameboards[1].board[i-1][j] === 's' || gameboards[1].board[i-2][j] === 's' || i<=2){
+                console.log("You can't place your ship there!");
+                getNumbers();
+                AI()
+            }else {
+            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
+        
+            gameboards[1].board[i][j] = 's';
+            gameboards[1].board[i-1][j] = 's';
+            aiShipCounter++;
+            AI()
+                
+            }   
+
+        }else if(aiShipCounter === 5||aiShipCounter===6){
+            getNumbers();
+            if(gameboards[1].board[i][j] === 's' || gameboards[1].board[i-1][j] === 's' || i<=2){
+                console.log("You can't place your ship there!");
+                getNumbers();
+                AI()
+            }else {
+            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+        
+            gameboards[1].board[i][j] = 's';
+            aiShipCounter++;
+            AI()
+            }   
+
+        }else {console.log("The AI has finished placing his ships!")}
+
+
+}
+
+
+
+
 function startRound(){
     console.log('The round has started!')
 }
