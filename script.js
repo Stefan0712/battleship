@@ -61,7 +61,7 @@ function createUIgameboard(who){
         for(let j=0;j<=9;j++){
                 const cell = document.createElement('div')
                 cell.classList.add('cells')
-                cell.setAttribute('id',`cell${i}x${j}`);
+                cell.setAttribute('id',`cell${i}x${j}x${p}`);
                 cell.setAttribute('onclick',`handleHit(${i},${j},'${p}')`)
                 boardUI.appendChild(cell)
         }
@@ -91,15 +91,21 @@ function startGame(){
 }
 let shipCounter = 0;
 function handleHit(i,j,p){
+    if(p=="AI"){
+        console.log("AI")
+    }else if(p=="player"){console.log('player')}
+
+
+
     if(p==='player'){
     if(shipCounter === 0){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's' || gameboards[0].board[i-3][j] === 's' || i<=2){
             console.log("You can't place your ship there!");
         }else {
-    document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
-    document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
-    document.getElementById(`cell${i-2}x${j}`).style.cssText = "background-color: lightgray";
-    document.getElementById(`cell${i-3}x${j}`).style.cssText = "background-color: lightgray";
+    document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+    document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
+    document.getElementById(`cell${i-2}x${j}x${p}`).style.cssText = "background-color: lightgray";
+    document.getElementById(`cell${i-3}x${j}x${p}`).style.cssText = "background-color: lightgray";
 
     gameboards[0].board[i][j] = 's';
     gameboards[0].board[i-1][j] = 's';
@@ -112,9 +118,9 @@ function handleHit(i,j,p){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's' || i<=1){
             console.log("You can't place your ship there!");
         }else {
-            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-2}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-2}x${j}x${p}`).style.cssText = "background-color: lightgray";
         
             gameboards[0].board[i][j] = 's';
             gameboards[0].board[i-1][j] = 's';
@@ -127,9 +133,9 @@ function handleHit(i,j,p){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's'){
             console.log("You can't place your ship there!")
         }else {
-            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-2}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-2}x${j}x${p}`).style.cssText = "background-color: lightgray";
         
             gameboards[0].board[i][j] = 's';
             gameboards[0].board[i-1][j] = 's';
@@ -142,8 +148,8 @@ function handleHit(i,j,p){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
             console.log("You can't place your ship there!")
         }else {
-        document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
-        document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+        document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
     
         gameboards[0].board[i][j] = 's';
         gameboards[0].board[i-1][j] = 's';
@@ -155,8 +161,8 @@ function handleHit(i,j,p){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
             console.log("You can't place your ship there!")
         }else {
-        document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
-        document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+        document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
     
         gameboards[0].board[i][j] = 's';
         gameboards[0].board[i-1][j] = 's';
@@ -168,7 +174,7 @@ function handleHit(i,j,p){
         if(gameboards[0].board[i][j] === 's'){
             console.log("You can't place your ship there!")
         }else {
-        document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
     
         gameboards[0].board[i][j] = 's';
         showShips(6)
@@ -179,7 +185,7 @@ function handleHit(i,j,p){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
             console.log("You can't place your ship there!")
         }else {
-        document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
     
         gameboards[0].board[i][j] = 's';
         showShips(7);    
@@ -187,6 +193,12 @@ function handleHit(i,j,p){
         }
     }else if(shipCounter === 7){
         startRound();
+    } 
+}else if(p=='AI'){
+    if(gameboards[1].board[i][j]=='s'){
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: green";
+    } else {
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: black";
     }
 }
 
@@ -209,6 +221,7 @@ function showShips(counter){
 }
 let aiShipCounter = 0;
 function AI(){
+    let p='AI'
         console.log("The AI is running")
         let i;
         let j;
@@ -224,10 +237,10 @@ function AI(){
                 getNumbers();
                 AI();
             }else {
-            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-2}x${j}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-3}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
+            document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: red";
+            document.getElementById(`cell${i-2}x${j}x${p}`).style.cssText = "background-color: red";
+            document.getElementById(`cell${i-3}x${j}x${p}`).style.cssText = "background-color: red";
         
             gameboards[1].board[i][j] = 's';
             gameboards[1].board[i-1][j] = 's';
@@ -245,9 +258,9 @@ function AI(){
                 getNumbers();
                 AI()
             }else {
-            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-2}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
+            document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: red";
+            document.getElementById(`cell${i-2}x${j}x${p}`).style.cssText = "background-color: red";
         
             gameboards[1].board[i][j] = 's';
             gameboards[1].board[i-1][j] = 's';
@@ -264,8 +277,8 @@ function AI(){
                 getNumbers();
                 AI()
             }else {
-            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
+            document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: red";
         
             gameboards[1].board[i][j] = 's';
             gameboards[1].board[i-1][j] = 's';
@@ -281,7 +294,7 @@ function AI(){
                 getNumbers();
                 AI()
             }else {
-            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
         
             gameboards[1].board[i][j] = 's';
             aiShipCounter++;
