@@ -329,3 +329,7 @@ function finishGame(name){
 
 }
 
+function rotateShip(){
+    console.log("Working")
+}
+

@@ -10,8 +10,16 @@
 <body>
     <div class="header">
         <div class="menu">
-            <input type="text" id="usernameInput" placeholder="Username..."> 
-            <button id="startGameBtn" onclick="startGame()">Start game</button>
+            <div class="inputs">
+                <input type="text" id="usernameInput" placeholder="Username..."> 
+
+            </div>
+            <div class="buttons">
+
+                <button id="startGameBtn" onclick="startGame()">Start game</button>
+                <button id="rotation" onclick="rotateShip()">Rotate ship</button>
+
+            </div>
         </div>
         <div class="status">
             <div class="logs"></div>
