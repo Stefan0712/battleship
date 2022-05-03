@@ -7,26 +7,17 @@ const mainLeft = document.querySelector(".mainLeft")
 const mainRight = document.querySelector(".mainRight")
 const hitStatus = document.getElementById('hitstatus')
 const logsWindow = document.querySelector(".logs")
+const shipC1 = document.querySelector(".ship1counter")
+const shipC2 = document.querySelector(".ship2counter")
+const shipC3 = document.querySelector(".ship3counter")
+const shipC4 = document.querySelector(".ship4counter")
+
+            
 
 let players = [];
 let gameboards = [];
 let gameOver = false;
 let isStarted = false;
-
-function  Ship(length,position){
-    this.length = length;
-    this.position = position;
-    this.isHit = [];
-    this.isSunken = false;
-    function hit(num){
-        isHit.push(num)
-    }
-    function isSunk(position, isHit){
-        if(isHit === position){
-            isSunken = true;
-        }
-    }
-}
 function Gameboard(){
     this.missedAttacks = [];
     this.areShipsSunken = false;
@@ -46,6 +37,12 @@ function Gameboard(){
 function Player(username){
     this.username = username;
     this.hits = 0;
+    this.ships = {
+        ship1: 1,
+        ship2: 2,
+        ship3: 2,
+        ship4: 2
+    }
 }
 function createUIgameboard(who){
     let p;
@@ -75,25 +72,24 @@ function startGame(){
     if(isStarted==false){
     let player1 = new Player(usernameInput.value);
     players.push(player1)
-    console.log([player1])
     player1name.innerHTML = usernameInput.value;
     let enemy = new Player('Enemy AI');
     players.push(enemy)
-    console.log(enemy)
     createUIgameboard('player');
     let playerGameboard = new Gameboard('player');
-    console.log(playerGameboard)
     let enemyGameboard = new Gameboard('AI');
     createUIgameboard('AI')
-    console.log(enemyGameboard);
     gameboards.push(playerGameboard)
     gameboards.push(enemyGameboard)
-    showShips(0)
     AI();
     isStarted = true;
     } else{
         hitStatus.innerHTML = "The game has already started!";
     }
+    shipC1.innerHTML = players[0].ships.ship1;
+    shipC2.innerHTML = players[0].ships.ship2;
+    shipC3.innerHTML = players[0].ships.ship3;
+    shipC4.innerHTML = players[0].ships.ship4;
     
 
     
@@ -104,7 +100,6 @@ let shipCounter = 0;
 function handleHit(i,j,p){
     if(shipCounter==7||p=='player'){
     if(p=="AI"){
-        console.log("AI")
     }else if(p=="player"){console.log('player')}
 
 
@@ -112,48 +107,50 @@ function handleHit(i,j,p){
     if(p==='player'){
     if(shipCounter === 0){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's' || gameboards[0].board[i-3][j] === 's' || i<=2){
-            console.log("You can't place your ship there!");
+            hitStatus.innerHTML = "You can't place your ship here!"
         }else {
-    document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
-    document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
-    document.getElementById(`cell${i-2}x${j}x${p}`).style.cssText = "background-color: lightgray";
-    document.getElementById(`cell${i-3}x${j}x${p}`).style.cssText = "background-color: lightgray";
+    
+   
 
-    gameboards[0].board[i][j] = 's';
-    gameboards[0].board[i-1][j] = 's';
-    gameboards[0].board[i-2][j] = 's';
-    gameboards[0].board[i-3][j] = 's';
+    for(let h=4;h>0;h--){
+        gameboards[0].board[i][j] = 's';
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+        i--;
+    }
+    //updates ship counter
     shipCounter++;
-    showShips(shipCounter);
+    players[0].ships.ship1--;
+    shipC1.innerHTML = players[0].ships.ship1;
         }
     } else if(shipCounter === 1 || shipCounter === 2){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's' || i<=1){
             console.log("You can't place your ship there!");
         }else {
-            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-2}x${j}x${p}`).style.cssText = "background-color: lightgray";
-        
-            gameboards[0].board[i][j] = 's';
-            gameboards[0].board[i-1][j] = 's';
-            gameboards[0].board[i-2][j] = 's';
-            
+          
+
+            for(let h=3;h>0;h--){
+                gameboards[0].board[i][j] = 's';
+                document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+                i--;
+            }
+
+            players[0].ships.ship2--;
+            shipC2.innerHTML = players[0].ships.ship2;
             shipCounter++;
-            showShips(shipCounter);
         }
     }else if(shipCounter === 3 || shipCounter === 4){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
             console.log("You can't place your ship there!")
         }else {
-        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
-        document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
-    
-        gameboards[0].board[i][j] = 's';
-        gameboards[0].board[i-1][j] = 's';
-        
+            for(let h=2;h>0;h--){
+                gameboards[0].board[i][j] = 's';
+                document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+                i--;
+            }
+            players[0].ships.ship3--;
+            shipC3.innerHTML = players[0].ships.ship3;
         shipCounter++;
 
-        showShips(shipCounter);
         }
     }else if(shipCounter === 5 || shipCounter === 6){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
@@ -162,9 +159,10 @@ function handleHit(i,j,p){
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
     
         gameboards[0].board[i][j] = 's';
+        players[0].ships.ship4--;
+        shipC4.innerHTML = players[0].ships.ship4;
         shipCounter++;
 
-        showShips(shipCounter);    
         }
     }else if(shipCounter === 7){
         startRound();
@@ -178,9 +176,7 @@ function handleHit(i,j,p){
         players[1].hits++;
         checkWinStatus();
         aiHit();
-        aiHit();
-        aiHit();
-        aiHit();
+     
 
     } else {
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
@@ -189,10 +185,7 @@ function handleHit(i,j,p){
         document.getElementById(`cell${i}x${j}x${p}`).removeAttribute('onclick');
         checkWinStatus();
         aiHit();
-        aiHit();
-        aiHit();
-        aiHit();
-    }
+ 
 }
     } else {
         hitStatus.innerHTML = `Please place all your ships`
@@ -201,19 +194,6 @@ function handleHit(i,j,p){
 
 
 }
-function showShips(counter){
-    const shipContainer = document.querySelector('.shipContainer')
-    const shipCounter = document.querySelector('.counter')
-    const shipImg = document.getElementById('shipImg')
-    if(counter==0){
-        shipImg.setAttribute('src','./imgs/ship1.png')
-    }else if(counter==1 || counter==2){
-        shipImg.setAttribute('src','./imgs/ship2.png')
-    }else if(counter==3||counter == 4){
-        shipImg.setAttribute('src','./imgs/ship3.png')
-    }else if(counter==5 || counter==6){
-        shipImg.setAttribute('src','./imgs/ship4.png')
-    }else if(counter==7){shipImg.removeAttribute('src')}
 }
 let aiShipCounter = 0;
 function AI(){
@@ -326,13 +306,14 @@ function aiHit(){
 
 function startRound(){
     console.log('The round has started!')
+    logsWindow.innerHTML = "The round has started! Attack your target!"
 }
 
 function checkWinStatus(){
 
-    if(players[1].hits==16){
+    if(players[0].hits==16){
         finishGame(players[1].username);
-    }else if(players[0].hits==16){
+    }else if(players[1].hits==16){
         finishGame(players[0].username)
     }
     
