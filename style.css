@@ -87,4 +87,8 @@ body{
 .cells:hover{
     border: 1px solid black;
 }
+#shipImg{
+    height: 250px;
+    width: 200px;
+}
 

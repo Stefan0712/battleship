@@ -83,6 +83,7 @@ function startGame(){
     console.log(enemyGameboard);
     gameboards.push(playerGameboard)
     gameboards.push(enemyGameboard)
+    showShips(0)
 
     
 }
@@ -102,7 +103,7 @@ function handleHit(i,j,p){
     gameboards[0].board[i-1][j] = 's';
     gameboards[0].board[i-2][j] = 's';
     gameboards[0].board[i-3][j] = 's';
-
+    showShips(1)
     shipCounter++;
         }
     } else if(shipCounter === 1){
@@ -116,6 +117,7 @@ function handleHit(i,j,p){
             gameboards[0].board[i][j] = 's';
             gameboards[0].board[i-1][j] = 's';
             gameboards[0].board[i-2][j] = 's';
+            showShips(2)
 
             shipCounter++;
         }
@@ -130,6 +132,7 @@ function handleHit(i,j,p){
             gameboards[0].board[i][j] = 's';
             gameboards[0].board[i-1][j] = 's';
             gameboards[0].board[i-2][j] = 's';
+            showShips(3)
 
             shipCounter++;
         }
@@ -142,6 +145,7 @@ function handleHit(i,j,p){
     
         gameboards[0].board[i][j] = 's';
         gameboards[0].board[i-1][j] = 's';
+        showShips(4)
 
         shipCounter++;
         }
@@ -154,6 +158,7 @@ function handleHit(i,j,p){
     
         gameboards[0].board[i][j] = 's';
         gameboards[0].board[i-1][j] = 's';
+        showShips(5)
 
         shipCounter++;
         }
@@ -164,6 +169,7 @@ function handleHit(i,j,p){
         document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
     
         gameboards[0].board[i][j] = 's';
+        showShips(6)
 
         shipCounter++;
         }
@@ -174,7 +180,7 @@ function handleHit(i,j,p){
         document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
     
         gameboards[0].board[i][j] = 's';
-
+        showShips(7);    
         shipCounter++;
         }
     }else if(shipCounter === 7){
@@ -184,6 +190,20 @@ function handleHit(i,j,p){
 
 
 
+}
+function showShips(counter){
+    const shipContainer = document.querySelector('.shipContainer')
+    const shipCounter = document.querySelector('.counter')
+    const shipImg = document.getElementById('shipImg')
+    if(counter==0){
+        shipImg.setAttribute('src','./imgs/ship1.png')
+    }else if(counter==1 || counter==2){
+        shipImg.setAttribute('src','./imgs/ship2.png')
+    }else if(counter==3 || counter == 4){
+        shipImg.setAttribute('src','./imgs/ship3.png')
+    }else if(counter==5 || counter == 6){
+        shipImg.setAttribute('src','./imgs/ship4.png')
+    }else if(counter==7){shipImg.removeAttribute('src')}
 }
 function startRound(){
     console.log('The round has started!')
