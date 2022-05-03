@@ -203,14 +203,16 @@ function handleHit(i,j,p){
         gameboards[1].board[i][j]= 'x';
         document.getElementById(`cell${i}x${j}x${p}`).removeAttribute('onclick')
         players[1].hits++;
-
         checkWinStatus();
+        aiHit();
+
     } else {
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
         hitStatus.innerHTML = "You missed!";
         gameboards[1].board[i][j]= 'm';
-        document.getElementById(`cell${i}x${j}x${p}`).removeAttribute('onclick')
+        document.getElementById(`cell${i}x${j}x${p}`).removeAttribute('onclick');
         checkWinStatus();
+        aiHit();
     }
 }
 
@@ -311,7 +313,29 @@ function AI(){
 
 }
 
+function aiHit(){
+    console.log("The AI made his move!")
+    let p = 'player';
+    let i;
+    let j;
+    function getNumbers(){
+        i = Math.floor(Math.random() * (9 - 2 + 1) + 2);    
+        j = Math.floor(Math.random() * (9 - 2 + 1) + 2);    
+    }
+    getNumbers();
+    if(gameboards[0].board[i][j]==0){
+        console.log("AI missed!")
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: pink";
+        gameboards[0].board[i][j] = 'm';
+    }else if(gameboards[0].board[i][j]=='s'){
+        console.log("AI hit your ship!")
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: blue";
+        gameboards[0].board[i][j] = 'x';
 
+    }else if(gameboards[0].board[i][j]=='m'|| gameboards[0].board[i][j]=='x'){
+        aiHit();
+    }
+}
 
 
 function startRound(){
@@ -322,7 +346,12 @@ function checkWinStatus(hits){
 
     if(players[1].hits==16){
         gameOver = true;
-        console.log("Game over!")
+        console.log("Player wins!")
+        hitStatus.innerHTML = "Game over!"
+    }else if(players[0].hits==16){
+        gameOver = true;
+        console.log("Ai wins!")
     }
     
 }
+
