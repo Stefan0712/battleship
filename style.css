@@ -84,11 +84,7 @@ body{
     margin: 0px;
     padding: 0px;
 }
-.ships img{
-    height: 195px;
-    width: 100px;
-}
-.ships div:hover{
+.cells:hover{
     border: 1px solid black;
-
 }
+

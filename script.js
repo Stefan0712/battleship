@@ -7,6 +7,7 @@ const mainLeft = document.querySelector(".mainLeft")
 const mainRight = document.querySelector(".mainRight")
 
 let players = [];
+let gameboards = [];
 
 function  Ship(length,position){
     this.length = length;
@@ -25,17 +26,22 @@ function  Ship(length,position){
 function Gameboard(){
     this.missedAttacks = [];
     this.areShipsSunken = false;
+    this.board = [
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0]
+    ]
 }
 function Player(username){
     this.username = username;
-    this.ships = {
-        1: 1,
-        2: 2,
-        3: 3,
-        4: 4
-    }
-    this.selectedShip = undefined;
-
+ 
 }
 function createUIgameboard(who){
     let p;
@@ -75,27 +81,110 @@ function startGame(){
     let enemyGameboard = new Gameboard('AI');
     createUIgameboard('AI')
     console.log(enemyGameboard);
+    gameboards.push(playerGameboard)
+    gameboards.push(enemyGameboard)
 
     
 }
-function shipSelection(type){
-    let player = players[0];
+let shipCounter = 0;
+function handleHit(i,j,p){
+    if(p==='player'){
+    if(shipCounter === 0){
+        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's' || gameboards[0].board[i-3][j] === 's' || i<=2){
+            console.log("You can't place your ship there!");
+        }else {
+    document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+    document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
+    document.getElementById(`cell${i-2}x${j}`).style.cssText = "background-color: lightgray";
+    document.getElementById(`cell${i-3}x${j}`).style.cssText = "background-color: lightgray";
 
+    gameboards[0].board[i][j] = 's';
+    gameboards[0].board[i-1][j] = 's';
+    gameboards[0].board[i-2][j] = 's';
+    gameboards[0].board[i-3][j] = 's';
 
-    console.log(type)
-    for(let i=1;i<=4;i++){
-        document.getElementById(`ship${i}`).style.cssText = "border: 1px solid lightgray;"
+    shipCounter++;
+        }
+    } else if(shipCounter === 1){
+        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's' || i<=1){
+            console.log("You can't place your ship there!");
+        }else {
+            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-2}x${j}`).style.cssText = "background-color: lightgray";
+        
+            gameboards[0].board[i][j] = 's';
+            gameboards[0].board[i-1][j] = 's';
+            gameboards[0].board[i-2][j] = 's';
 
+            shipCounter++;
+        }
+    }else if(shipCounter === 2){
+        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's'){
+            console.log("You can't place your ship there!")
+        }else {
+            document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
+            document.getElementById(`cell${i-2}x${j}`).style.cssText = "background-color: lightgray";
+        
+            gameboards[0].board[i][j] = 's';
+            gameboards[0].board[i-1][j] = 's';
+            gameboards[0].board[i-2][j] = 's';
+
+            shipCounter++;
+        }
+    }else if(shipCounter === 3){
+        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
+            console.log("You can't place your ship there!")
+        }else {
+        document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+        document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
+    
+        gameboards[0].board[i][j] = 's';
+        gameboards[0].board[i-1][j] = 's';
+
+        shipCounter++;
+        }
+    }else if(shipCounter === 4){
+        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
+            console.log("You can't place your ship there!")
+        }else {
+        document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+        document.getElementById(`cell${i-1}x${j}`).style.cssText = "background-color: lightgray";
+    
+        gameboards[0].board[i][j] = 's';
+        gameboards[0].board[i-1][j] = 's';
+
+        shipCounter++;
+        }
+    }else if(shipCounter === 5){
+        if(gameboards[0].board[i][j] === 's'){
+            console.log("You can't place your ship there!")
+        }else {
+        document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+    
+        gameboards[0].board[i][j] = 's';
+
+        shipCounter++;
+        }
+    }else if(shipCounter === 6){
+        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
+            console.log("You can't place your ship there!")
+        }else {
+        document.getElementById(`cell${i}x${j}`).style.cssText = "background-color: lightgray";
+    
+        gameboards[0].board[i][j] = 's';
+
+        shipCounter++;
+        }
+    }else if(shipCounter === 7){
+        startRound();
     }
-    document.getElementById(`ship${type}`).style.cssText = "border: 4px solid red;"
-    players[0].selectedShip = type;
+}
 
-    if(type == 1){
-        document.getElementsByClassName('cells').onclick = 
-    }
+
 
 }
-function handleHit(i,j,p){
-    console.log(i,j, p)
-   
+function startRound(){
+    console.log('The round has started!')
 }
