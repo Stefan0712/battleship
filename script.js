@@ -5,9 +5,11 @@ const startGameBtn = document.getElementById('startGameBtn')
 const player1name = document.querySelector(".player1name")
 const mainLeft = document.querySelector(".mainLeft")
 const mainRight = document.querySelector(".mainRight")
+const hitStatus = document.getElementById('hitstatus')
 
 let players = [];
 let gameboards = [];
+let gameOver = false;
 
 function  Ship(length,position){
     this.length = length;
@@ -41,7 +43,7 @@ function Gameboard(){
 }
 function Player(username){
     this.username = username;
- 
+    this.hits = 0;
 }
 function createUIgameboard(who){
     let p;
@@ -197,8 +199,18 @@ function handleHit(i,j,p){
 }else if(p=='AI'){
     if(gameboards[1].board[i][j]=='s'){
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: green";
+        hitStatus.innerHTML = "You hit!";
+        gameboards[1].board[i][j]= 'x';
+        document.getElementById(`cell${i}x${j}x${p}`).removeAttribute('onclick')
+        players[1].hits++;
+
+        checkWinStatus();
     } else {
-        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: black";
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
+        hitStatus.innerHTML = "You missed!";
+        gameboards[1].board[i][j]= 'm';
+        document.getElementById(`cell${i}x${j}x${p}`).removeAttribute('onclick')
+        checkWinStatus();
     }
 }
 
@@ -237,10 +249,7 @@ function AI(){
                 getNumbers();
                 AI();
             }else {
-            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
-            document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: red";
-            document.getElementById(`cell${i-2}x${j}x${p}`).style.cssText = "background-color: red";
-            document.getElementById(`cell${i-3}x${j}x${p}`).style.cssText = "background-color: red";
+         
         
             gameboards[1].board[i][j] = 's';
             gameboards[1].board[i-1][j] = 's';
@@ -258,9 +267,7 @@ function AI(){
                 getNumbers();
                 AI()
             }else {
-            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
-            document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: red";
-            document.getElementById(`cell${i-2}x${j}x${p}`).style.cssText = "background-color: red";
+      
         
             gameboards[1].board[i][j] = 's';
             gameboards[1].board[i-1][j] = 's';
@@ -277,8 +284,7 @@ function AI(){
                 getNumbers();
                 AI()
             }else {
-            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
-            document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: red";
+  
         
             gameboards[1].board[i][j] = 's';
             gameboards[1].board[i-1][j] = 's';
@@ -294,7 +300,6 @@ function AI(){
                 getNumbers();
                 AI()
             }else {
-            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
         
             gameboards[1].board[i][j] = 's';
             aiShipCounter++;
@@ -311,4 +316,13 @@ function AI(){
 
 function startRound(){
     console.log('The round has started!')
+}
+
+function checkWinStatus(hits){
+
+    if(players[1].hits==16){
+        gameOver = true;
+        console.log("Game over!")
+    }
+    
 }
