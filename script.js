@@ -6,10 +6,12 @@ const player1name = document.querySelector(".player1name")
 const mainLeft = document.querySelector(".mainLeft")
 const mainRight = document.querySelector(".mainRight")
 const hitStatus = document.getElementById('hitstatus')
+const logsWindow = document.querySelector(".logs")
 
 let players = [];
 let gameboards = [];
 let gameOver = false;
+let isStarted = false;
 
 function  Ship(length,position){
     this.length = length;
@@ -70,6 +72,7 @@ function createUIgameboard(who){
     }
 }
 function startGame(){
+    if(isStarted==false){
     let player1 = new Player(usernameInput.value);
     players.push(player1)
     console.log([player1])
@@ -87,12 +90,19 @@ function startGame(){
     gameboards.push(enemyGameboard)
     showShips(0)
     AI();
+    isStarted = true;
+    } else{
+        hitStatus.innerHTML = "The game has already started!";
+    }
     
 
     
 }
 let shipCounter = 0;
+
+
 function handleHit(i,j,p){
+    if(shipCounter==7||p=='player'){
     if(p=="AI"){
         console.log("AI")
     }else if(p=="player"){console.log('player')}
@@ -113,10 +123,10 @@ function handleHit(i,j,p){
     gameboards[0].board[i-1][j] = 's';
     gameboards[0].board[i-2][j] = 's';
     gameboards[0].board[i-3][j] = 's';
-    showShips(1)
     shipCounter++;
+    showShips(shipCounter);
         }
-    } else if(shipCounter === 1){
+    } else if(shipCounter === 1 || shipCounter === 2){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's' || i<=1){
             console.log("You can't place your ship there!");
         }else {
@@ -127,71 +137,34 @@ function handleHit(i,j,p){
             gameboards[0].board[i][j] = 's';
             gameboards[0].board[i-1][j] = 's';
             gameboards[0].board[i-2][j] = 's';
-            showShips(2)
-
+            
             shipCounter++;
+            showShips(shipCounter);
         }
-    }else if(shipCounter === 2){
-        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's'){
+    }else if(shipCounter === 3 || shipCounter === 4){
+        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
             console.log("You can't place your ship there!")
         }else {
-            document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
-            document.getElementById(`cell${i-2}x${j}x${p}`).style.cssText = "background-color: lightgray";
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+        document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
+    
+        gameboards[0].board[i][j] = 's';
+        gameboards[0].board[i-1][j] = 's';
         
-            gameboards[0].board[i][j] = 's';
-            gameboards[0].board[i-1][j] = 's';
-            gameboards[0].board[i-2][j] = 's';
-            showShips(3)
-
-            shipCounter++;
-        }
-    }else if(shipCounter === 3){
-        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
-            console.log("You can't place your ship there!")
-        }else {
-        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
-        document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
-    
-        gameboards[0].board[i][j] = 's';
-        gameboards[0].board[i-1][j] = 's';
-        showShips(4)
-
         shipCounter++;
-        }
-    }else if(shipCounter === 4){
-        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
-            console.log("You can't place your ship there!")
-        }else {
-        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
-        document.getElementById(`cell${i-1}x${j}x${p}`).style.cssText = "background-color: lightgray";
-    
-        gameboards[0].board[i][j] = 's';
-        gameboards[0].board[i-1][j] = 's';
-        showShips(5)
 
-        shipCounter++;
+        showShips(shipCounter);
         }
-    }else if(shipCounter === 5){
-        if(gameboards[0].board[i][j] === 's'){
-            console.log("You can't place your ship there!")
-        }else {
-        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
-    
-        gameboards[0].board[i][j] = 's';
-        showShips(6)
-
-        shipCounter++;
-        }
-    }else if(shipCounter === 6){
+    }else if(shipCounter === 5 || shipCounter === 6){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
             console.log("You can't place your ship there!")
         }else {
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
     
         gameboards[0].board[i][j] = 's';
-        showShips(7);    
         shipCounter++;
+
+        showShips(shipCounter);    
         }
     }else if(shipCounter === 7){
         startRound();
@@ -205,6 +178,9 @@ function handleHit(i,j,p){
         players[1].hits++;
         checkWinStatus();
         aiHit();
+        aiHit();
+        aiHit();
+        aiHit();
 
     } else {
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: red";
@@ -213,8 +189,14 @@ function handleHit(i,j,p){
         document.getElementById(`cell${i}x${j}x${p}`).removeAttribute('onclick');
         checkWinStatus();
         aiHit();
+        aiHit();
+        aiHit();
+        aiHit();
     }
 }
+    } else {
+        hitStatus.innerHTML = `Please place all your ships`
+    }
 
 
 
@@ -227,14 +209,15 @@ function showShips(counter){
         shipImg.setAttribute('src','./imgs/ship1.png')
     }else if(counter==1 || counter==2){
         shipImg.setAttribute('src','./imgs/ship2.png')
-    }else if(counter==3 || counter == 4){
+    }else if(counter==3||counter == 4){
         shipImg.setAttribute('src','./imgs/ship3.png')
-    }else if(counter==5 || counter == 6){
+    }else if(counter==5 || counter==6){
         shipImg.setAttribute('src','./imgs/ship4.png')
     }else if(counter==7){shipImg.removeAttribute('src')}
 }
 let aiShipCounter = 0;
 function AI(){
+    players[1].ships = 0;
     let p='AI'
         console.log("The AI is running")
         let i;
@@ -319,18 +302,21 @@ function aiHit(){
     let i;
     let j;
     function getNumbers(){
-        i = Math.floor(Math.random() * (9 - 2 + 1) + 2);    
-        j = Math.floor(Math.random() * (9 - 2 + 1) + 2);    
+        i = Math.floor(Math.random() * (9 - 0 + 1) + 0);    
+        j = Math.floor(Math.random() * (9 - 0 + 1) + 0);    
     }
     getNumbers();
     if(gameboards[0].board[i][j]==0){
         console.log("AI missed!")
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: pink";
         gameboards[0].board[i][j] = 'm';
+        checkWinStatus();
     }else if(gameboards[0].board[i][j]=='s'){
         console.log("AI hit your ship!")
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: blue";
         gameboards[0].board[i][j] = 'x';
+        players[0].hits++;
+        checkWinStatus();
 
     }else if(gameboards[0].board[i][j]=='m'|| gameboards[0].board[i][j]=='x'){
         aiHit();
@@ -342,16 +328,23 @@ function startRound(){
     console.log('The round has started!')
 }
 
-function checkWinStatus(hits){
+function checkWinStatus(){
 
     if(players[1].hits==16){
-        gameOver = true;
-        console.log("Player wins!")
-        hitStatus.innerHTML = "Game over!"
+        finishGame(players[1].username);
     }else if(players[0].hits==16){
-        gameOver = true;
-        console.log("Ai wins!")
+        finishGame(players[0].username)
     }
     
+}
+function finishGame(name){
+    const cells = document.getElementsByClassName('cells');
+    for(let i=0;i<cells.length;i++){
+        cells[i].removeAttribute('onclick');
+    }
+    hitStatus.innerHTML = "Game over!";
+    logsWindow.innerHTML = `${name} won!`
+    
+
 }
 
