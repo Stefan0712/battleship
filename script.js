@@ -116,7 +116,7 @@ function handleHit(i,j,p){
 
                 placeShipVertically(i,j,p,4);
             }else {
-                console.log("Not a valid move")
+                logsWindow.innerHTML = "Not a valid move";
             }
         
             } else if(shipCounter === 1 || shipCounter === 2){
@@ -127,7 +127,7 @@ function handleHit(i,j,p){
     
                     placeShipVertically(i,j,p,3);
                 }else {
-                    console.log("Not a valid move")
+                    logsWindow.innerHTML = "Not a valid move";
                 }            }else if(shipCounter === 3 || shipCounter === 4){
 
                     let move = checkValidMove(i,j,2,p);
@@ -135,14 +135,14 @@ function handleHit(i,j,p){
         
                         placeShipVertically(i,j,p,2);
                     }else {
-                        console.log("Not a valid move")
+                        logsWindow.innerHTML = "Not a valid move";
                     }            }else if(shipCounter === 5 || shipCounter === 6){
                         let move = checkValidMove(i,j,1,p);
                         if(move==true){
             
                             placeShipVertically(i,j,p,1);
                         }else {
-                            console.log("Not a valid move")
+                            logsWindow.innerHTML = "Not a valid move";
                         }            }else if(shipCounter === 7){
                 startRound();
             } 
@@ -185,14 +185,13 @@ function handleHit(i,j,p){
 
 let aiShipCounter = 0;
 function AI(){
-    players[1].ships = 0;
     let p='AI'
-        console.log("The AI is running")
-        let i;
-        let j;
+    i = Math.floor(Math.random() * (9 - 2 + 1) + 2);    
+    j = Math.floor(Math.random() * (9 - 2 + 1) + 2);  
         function getNumbers(){
             i = Math.floor(Math.random() * (9 - 2 + 1) + 2);    
-            j = Math.floor(Math.random() * (9 - 2 + 1) + 2);    
+            j = Math.floor(Math.random() * (9 - 2 + 1) + 2);
+            console.log(aiShipCounter)    
         }
         
         if(aiShipCounter === 0){
@@ -211,7 +210,7 @@ function AI(){
 
         }else if(aiShipCounter === 1||aiShipCounter===2){
             getNumbers();
-            if(gameboards[1].board[i][j] === 's' || gameboards[1].board[i-1][j] === 's' || gameboards[1].board[i-2][j] === 's' || i<=2){
+            if(gameboards[1].board[i][j] === 's' || gameboards[1].board[i-1][j] === 's' || gameboards[1].board[i-2][j] === 's'){
                 console.log("You can't place your ship there!");
                 getNumbers();
                 AI()
@@ -225,7 +224,7 @@ function AI(){
 
         }else if(aiShipCounter === 3||aiShipCounter===4){
             getNumbers();
-            if(gameboards[1].board[i][j] === 's' || gameboards[1].board[i-1][j] === 's' || gameboards[1].board[i-2][j] === 's' || i<=2){
+            if(gameboards[1].board[i][j] === 's' || gameboards[1].board[i-1][j] === 's'){
                 console.log("You can't place your ship there!");
                 getNumbers();
                 AI()
@@ -238,7 +237,7 @@ function AI(){
 
         }else if(aiShipCounter === 5||aiShipCounter===6){
             getNumbers();
-            if(gameboards[1].board[i][j] === 's' || gameboards[1].board[i-1][j] === 's' || i<=2){
+            if(gameboards[1].board[i][j] === 's'){
                 console.log("You can't place your ship there!");
                 getNumbers();
                 AI()
@@ -248,13 +247,11 @@ function AI(){
 
             }   
 
-        }else {console.log("The AI has finished placing his ships!")}
-
+        }
 
 }
-let AIdirection = 'v';
 function aiShipPlace(i,j,p,l){
-    if(AIdirection=='v'){
+   
     for(let a=l;a>0;a--){
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
         gameboards[1].board[i][j] = 's';
@@ -262,10 +259,7 @@ function aiShipPlace(i,j,p,l){
         aiShipCounter++;
         AI();
     }
-    }else if(AIdirection == 'h'){
-        gameboards[1].board[i][j] = 's';
-        j--;
-    }
+    
 }
 
 function aiHit(){
@@ -348,7 +342,7 @@ function placeShipVertically(i,j,p,l){
     handleCounter(l);
     shipCounter++;
     }else {
-        console.log("Not a valid move")
+        logsWindow.innerHTML = "Not a valid move"
     }
 }else if(direction == 'h'){
 
@@ -366,7 +360,6 @@ function placeShipVertically(i,j,p,l){
 
 
 function checkValidMove(i,j,l,p){
-    console.log(i,j,l)
     let isValid = true;
     if(direction=='v'){
         for(let n=l;n>0;n--){
