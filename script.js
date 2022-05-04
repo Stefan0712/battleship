@@ -18,6 +18,7 @@ let players = [];
 let gameboards = [];
 let gameOver = false;
 let isStarted = false;
+let direction = 'v';
 function Gameboard(){
     this.missedAttacks = [];
     this.areShipsSunken = false;
@@ -112,15 +113,7 @@ function handleHit(i,j,p){
     
    
 
-    for(let h=4;h>0;h--){
-        gameboards[0].board[i][j] = 's';
-        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
-        i--;
-    }
-    //updates ship counter
-    shipCounter++;
-    players[0].ships.ship1--;
-    shipC1.innerHTML = players[0].ships.ship1;
+            placeShipVertically(i,j,p,4);
         }
     } else if(shipCounter === 1 || shipCounter === 2){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's' || i<=1){
@@ -128,40 +121,20 @@ function handleHit(i,j,p){
         }else {
           
 
-            for(let h=3;h>0;h--){
-                gameboards[0].board[i][j] = 's';
-                document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
-                i--;
-            }
-
-            players[0].ships.ship2--;
-            shipC2.innerHTML = players[0].ships.ship2;
-            shipCounter++;
+            placeShipVertically(i,j,p,3);
         }
     }else if(shipCounter === 3 || shipCounter === 4){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
             console.log("You can't place your ship there!")
         }else {
-            for(let h=2;h>0;h--){
-                gameboards[0].board[i][j] = 's';
-                document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
-                i--;
-            }
-            players[0].ships.ship3--;
-            shipC3.innerHTML = players[0].ships.ship3;
-        shipCounter++;
+            placeShipVertically(i,j,p,2);
 
         }
     }else if(shipCounter === 5 || shipCounter === 6){
         if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
             console.log("You can't place your ship there!")
         }else {
-        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
-    
-        gameboards[0].board[i][j] = 's';
-        players[0].ships.ship4--;
-        shipC4.innerHTML = players[0].ships.ship4;
-        shipCounter++;
+        placeShipVertically(i,j,p,1)
 
         }
     }else if(shipCounter === 7){
@@ -331,5 +304,39 @@ function finishGame(name){
 
 function rotateShip(){
     console.log("Working")
+    if(direction == 'v'){
+        direction = 'h';
+    } else if(direction == 'h'){
+        direction = 'v';
+    }
+    console.log(direction)
+
+}
+
+
+function placeShipVertically(i,j,p,l){
+    if(direction == 'v'){
+    for(let h=l;h>0;h--){
+        gameboards[0].board[i][j] = 's';
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+        i--;
+    }
+    //updates ship counter
+    shipCounter++;
+    players[0].ships.ship1--;
+    shipC1.innerHTML = players[0].ships.ship1;
+}else if(direction == 'h'){
+
+
+    for(let h=l;h>0;h--){
+        gameboards[0].board[i][j] = 's';
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+        j--;
+    }
+    //updates ship counter
+    shipCounter++;
+    players[0].ships.ship1--;
+    shipC1.innerHTML = players[0].ships.ship1;
+    }
 }
 
