@@ -98,6 +98,9 @@ function startGame(){
 let shipCounter = 0;
 
 
+
+
+
 function handleHit(i,j,p){
     if(shipCounter==7||p=='player'){
     if(p=="AI"){
@@ -107,39 +110,42 @@ function handleHit(i,j,p){
 
     if(p==='player'){
     if(shipCounter === 0){
-        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's' || gameboards[0].board[i-3][j] === 's' || i<=2){
-            hitStatus.innerHTML = "You can't place your ship here!"
-        }else {
+        
+            let move = checkValidMove(i,j,4,p);
+            if(move==true){
+
+                placeShipVertically(i,j,p,4);
+            }else {
+                console.log("Not a valid move")
+            }
+        
+            } else if(shipCounter === 1 || shipCounter === 2){
+                
+
+                let move = checkValidMove(i,j,3,p);
+                if(move==true){
     
-   
+                    placeShipVertically(i,j,p,3);
+                }else {
+                    console.log("Not a valid move")
+                }            }else if(shipCounter === 3 || shipCounter === 4){
 
-            placeShipVertically(i,j,p,4);
-        }
-    } else if(shipCounter === 1 || shipCounter === 2){
-        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's' || gameboards[0].board[i-2][j] === 's' || i<=1){
-            console.log("You can't place your ship there!");
-        }else {
-          
-
-            placeShipVertically(i,j,p,3);
-        }
-    }else if(shipCounter === 3 || shipCounter === 4){
-        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
-            console.log("You can't place your ship there!")
-        }else {
-            placeShipVertically(i,j,p,2);
-
-        }
-    }else if(shipCounter === 5 || shipCounter === 6){
-        if(gameboards[0].board[i][j] === 's' || gameboards[0].board[i-1][j] === 's'){
-            console.log("You can't place your ship there!")
-        }else {
-        placeShipVertically(i,j,p,1)
-
-        }
-    }else if(shipCounter === 7){
-        startRound();
-    } 
+                    let move = checkValidMove(i,j,2,p);
+                    if(move==true){
+        
+                        placeShipVertically(i,j,p,2);
+                    }else {
+                        console.log("Not a valid move")
+                    }            }else if(shipCounter === 5 || shipCounter === 6){
+                        let move = checkValidMove(i,j,1,p);
+                        if(move==true){
+            
+                            placeShipVertically(i,j,p,1);
+                        }else {
+                            console.log("Not a valid move")
+                        }            }else if(shipCounter === 7){
+                startRound();
+            } 
 }else if(p=='AI'){
     if(gameboards[1].board[i][j]=='s'){
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: green";
@@ -168,6 +174,15 @@ function handleHit(i,j,p){
 
 }
 }
+
+
+
+
+
+
+
+
+
 let aiShipCounter = 0;
 function AI(){
     players[1].ships = 0;
@@ -189,12 +204,8 @@ function AI(){
             }else {
          
         
-            gameboards[1].board[i][j] = 's';
-            gameboards[1].board[i-1][j] = 's';
-            gameboards[1].board[i-2][j] = 's';
-            gameboards[1].board[i-3][j] = 's';
-            aiShipCounter++;
-            AI()
+                aiShipPlace(i,j,p,4);
+
                 }
             
 
@@ -207,11 +218,8 @@ function AI(){
             }else {
       
         
-            gameboards[1].board[i][j] = 's';
-            gameboards[1].board[i-1][j] = 's';
-            gameboards[1].board[i-2][j] = 's';
-            aiShipCounter++;
-            AI()
+                aiShipPlace(i,j,p,3);
+
                 
             }   
 
@@ -224,10 +232,7 @@ function AI(){
             }else {
   
         
-            gameboards[1].board[i][j] = 's';
-            gameboards[1].board[i-1][j] = 's';
-            aiShipCounter++;
-            AI()
+            aiShipPlace(i,j,p,2);
                 
             }   
 
@@ -239,14 +244,28 @@ function AI(){
                 AI()
             }else {
         
-            gameboards[1].board[i][j] = 's';
-            aiShipCounter++;
-            AI()
+                aiShipPlace(i,j,p,1);
+
             }   
 
         }else {console.log("The AI has finished placing his ships!")}
 
 
+}
+let AIdirection = 'v';
+function aiShipPlace(i,j,p,l){
+    if(AIdirection=='v'){
+    for(let a=l;a>0;a--){
+        document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
+        gameboards[1].board[i][j] = 's';
+        i--;
+        aiShipCounter++;
+        AI();
+    }
+    }else if(AIdirection == 'h'){
+        gameboards[1].board[i][j] = 's';
+        j--;
+    }
 }
 
 function aiHit(){
@@ -316,6 +335,10 @@ function rotateShip(){
 
 function placeShipVertically(i,j,p,l){
     if(direction == 'v'){
+        let move = checkValidMove(i,j,l,p);
+        if(move==true){
+
+        
     for(let h=l;h>0;h--){
         gameboards[0].board[i][j] = 's';
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
@@ -324,9 +347,12 @@ function placeShipVertically(i,j,p,l){
     //updates ship counter
     handleCounter(l);
     shipCounter++;
+    }else {
+        console.log("Not a valid move")
+    }
 }else if(direction == 'h'){
 
-
+    checkValidMove(i,j,l,p)
     for(let h=l;h>0;h--){
         gameboards[0].board[i][j] = 's';
         document.getElementById(`cell${i}x${j}x${p}`).style.cssText = "background-color: lightgray";
@@ -337,6 +363,35 @@ function placeShipVertically(i,j,p,l){
     handleCounter(l);
     }
 }
+
+
+function checkValidMove(i,j,l,p){
+    console.log(i,j,l)
+    let isValid = true;
+    for(let n=l;n>0;n--){
+        
+        if(i<=2&&l==4){
+            isValid = false;
+        }else if(i<=1&&l==3){
+            isValid = false;
+        }else if(i<=0&&l==2){
+            isValid = false;
+        }else if(l==1){
+            isValid = true;
+        }
+
+        if(gameboards[0].board[i-(n-1)][j]=='s'){
+            isValid = false;
+        }
+        
+    
+        
+    }
+    
+    return isValid;
+}
+
+
 
 function handleCounter(l){
     if(l==4){
