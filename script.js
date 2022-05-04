@@ -368,24 +368,42 @@ function placeShipVertically(i,j,p,l){
 function checkValidMove(i,j,l,p){
     console.log(i,j,l)
     let isValid = true;
-    for(let n=l;n>0;n--){
-        
-        if(i<=2&&l==4){
-            isValid = false;
-        }else if(i<=1&&l==3){
-            isValid = false;
-        }else if(i<=0&&l==2){
-            isValid = false;
-        }else if(l==1){
-            isValid = true;
-        }
+    if(direction=='v'){
+        for(let n=l;n>0;n--){
+            
+            if(i<=2&&l==4){
+                isValid = false;
+            }else if(i<=1&&l==3){
+                isValid = false;
+            }else if(i<=0&&l==2){
+                isValid = false;
+            }else if(l==1){
+                isValid = true;
+            }
 
-        if(gameboards[0].board[i-(n-1)][j]=='s'){
-            isValid = false;
+            if(gameboards[0].board[i-(n-1)][j]=='s'){
+                isValid = false;
+            }
+            
         }
-        
-    
-        
+    }else if(direction=='h'){
+        for(let n=l;n>0;n--){
+            
+            if(j<=2&&l==4){
+                isValid = false;
+            }else if(j<=1&&l==3){
+                isValid = false;
+            }else if(j<=0&&l==2){
+                isValid = false;
+            }else if(l==1){
+                isValid = true;
+            }
+
+            if(gameboards[0].board[i][j-(n-1)]=='s'){
+                isValid = false;
+            }
+            
+        }
     }
     
     return isValid;
