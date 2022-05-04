@@ -322,9 +322,8 @@ function placeShipVertically(i,j,p,l){
         i--;
     }
     //updates ship counter
+    handleCounter(l);
     shipCounter++;
-    players[0].ships.ship1--;
-    shipC1.innerHTML = players[0].ships.ship1;
 }else if(direction == 'h'){
 
 
@@ -335,8 +334,23 @@ function placeShipVertically(i,j,p,l){
     }
     //updates ship counter
     shipCounter++;
-    players[0].ships.ship1--;
-    shipC1.innerHTML = players[0].ships.ship1;
+    handleCounter(l);
     }
 }
 
+function handleCounter(l){
+    if(l==4){
+        players[0].ships.ship1--;
+        shipC1.innerHTML = players[0].ships.ship1;
+    }else  if(l==3){
+        players[0].ships.ship2--;
+        shipC2.innerHTML = players[0].ships.ship2;
+    }else  if(l==2){
+        players[0].ships.ship3--;
+        shipC3.innerHTML = players[0].ships.ship3;
+    }else  if(l==1){
+        players[0].ships.ship4--;
+        shipC4.innerHTML = players[0].ships.ship4;
+    }
+    
+}
