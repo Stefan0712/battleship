@@ -5,8 +5,9 @@ const startGameBtn = document.getElementById('startGameBtn')
 const player1name = document.querySelector(".player1name")
 const mainLeft = document.querySelector(".mainLeft")
 const mainRight = document.querySelector(".mainRight")
-const hitStatus = document.getElementById('hitstatus')
-const logsWindow = document.querySelector(".logs")
+const enemyName = document.querySelector(".rightHeader")
+const hitStatus = document.querySelector(".status")
+const logsWindow = document.querySelector(".status")
 const shipC1 = document.querySelector(".ship1counter")
 const shipC2 = document.querySelector(".ship2counter")
 const shipC3 = document.querySelector(".ship3counter")
@@ -72,6 +73,7 @@ function createUIgameboard(who){
     }
 }
 function startGame(){
+    logsWindow.innerHTML = "Place your ships!"
     //checks if the game is already started
     if(isStarted==false){
         //created player object
@@ -84,6 +86,7 @@ function startGame(){
     let enemy = new Player('Enemy AI');
     //adds enemy to players array
     players.push(enemy)
+    enemyName.innerHTML = "Enemy AI";
     //created gamebaord for player and enemy
     createUIgameboard('player');
     let playerGameboard = new Gameboard('player');
@@ -156,6 +159,7 @@ function handleHit(i,j,p){
                         if(move==true){
             
                             placeShipVertically(i,j,p,1);
+                            logsWindow.innerHTML = "Attack your target!"
                         }else {
                             logsWindow.innerHTML = "Not a valid move";
                         }            }else if(shipCounter === 7){
